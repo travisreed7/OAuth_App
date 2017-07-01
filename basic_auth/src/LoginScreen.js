@@ -8,8 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Login from './Login';
 import Register from './Register';
 
-class LoginScreen extends React.Component {
-    constructor (props){
+export default class LoginScreen extends React.Component {
+    constructor (props) {
         super (props);
         this.state = {
             username:'',
@@ -21,7 +21,7 @@ class LoginScreen extends React.Component {
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         var loginscreen=[];
         loginscreen.push(<Login parentContext={this} appContext={this.props.parentContext}/>);
         var loginmessage = "Not registered yet, Register Now";
@@ -31,8 +31,7 @@ class LoginScreen extends React.Component {
         })
     }
 
-    handleClick(event){
-        // console.log("event",event);
+    handleClick(event) {
         var loginmessage;
         var loginscreen=[];
         if(this.state.isLogin){
@@ -45,7 +44,7 @@ class LoginScreen extends React.Component {
                 isLogin:false
             })
         }
-        else{
+        else {
             loginscreen.push(<Login parentContext={this}/>);
             loginmessage = "Not Registered yet.Go to registration";
             this.setState({
@@ -76,4 +75,3 @@ class LoginScreen extends React.Component {
 const style = {
     margin: 15,
 };
-export default LoginScreen;

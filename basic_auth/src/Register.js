@@ -1,7 +1,3 @@
-/**
- * Created by travisreed7 on 6/25/17.
- */
-
 import React from 'react';
 import axios from 'axios';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -11,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import Login from './Login';
 
 class Register extends React.Component {
-    constructor (props){
+    constructor (props) {
         super (props);
         this.state = {
             first_name:'',
@@ -21,20 +17,19 @@ class Register extends React.Component {
         }
     }
 
-    handleClick (event){
+    handleClick (event) {
         var apiBaseUrl = "http://localhost:3000/api/";
-        console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
-        //To be done:check for empty values before hitting submit
         var self = this;
+        console.log("values: ",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
+        //To be done:check for empty values before hitting submit
         var payload={
             "first_name": this.state.first_name,
             "last_name":this.state.last_name,
             "email":this.state.email,
             "password":this.state.password
         }
-        axios.post(apiBaseUrl+'/register', payload)
+        axios.post(apiBaseUrl+'register', payload)
             .then(function (response) {
-                console.log(response);
                 if(response.data.code === 200){
                     console.log("registration successful");
                     var loginscreen=[];

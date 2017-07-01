@@ -1,11 +1,11 @@
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
     password : 'password',
     database : 'Auth'
 });
-connection.connect(function(err){
+connection.connect(function(err) {
     if(!err) {
         console.log("Database is connected");
     } else {
@@ -13,8 +13,8 @@ connection.connect(function(err){
     }
 });
 
-exports.register = function(req,res){
-    console.log("req",req.body);
+exports.register = function(req,res) {
+    console.log("req", req.body);
     var today = new Date();
     var users={
         "first_name":req.body.first_name,
@@ -41,7 +41,7 @@ exports.register = function(req,res){
     });
 }
 
-exports.login = function(req,res){
+exports.login = function(req,res) {
     var email= req.body.email;
     var password = req.body.password;
     connection.query('SELECT * FROM users WHERE email = ?',[email], function (error, results, fields) {
@@ -52,9 +52,9 @@ exports.login = function(req,res){
                 "failed":"error occurred"
             })
         }else{
-            console.log('The solution is: ', results);
-            if(results.length >0){
-                if([0].password == password){
+            console.log('The results are: ', results);
+            if(results.length > 0){
+                if(results[0].password === password){
                     res.send({
                         "code":200,
                         "success":"login successful"
