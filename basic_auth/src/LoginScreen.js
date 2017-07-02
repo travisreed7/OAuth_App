@@ -1,7 +1,6 @@
 /**
  * Created by travisreed7 on 6/25/17.
  */
-
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';

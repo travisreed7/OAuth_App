@@ -1,6 +1,7 @@
 import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import LoginScreen from './LoginScreen';
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import './App.css';
 
 // Needed for onTouchTap
@@ -24,12 +25,10 @@ class App extends React.Component {
         })
     }
 
-
     render() {
         return (
             <div className="App">
                 {this.state.loginPage}
-                {this.state.uploadScreen}
             </div>
         );
     }
