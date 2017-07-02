@@ -3,6 +3,9 @@ var login = require('./routes/loginroutes');
 var bodyParser = require('body-parser');
 
 var app = express();
+
+const home = require('../src/components/Home');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -22,4 +25,5 @@ router.get('/', function(req, res) {
 router.post('/register',login.register);
 router.post('/login',login.login)
 app.use('/api', router);
+app.use(home);
 app.listen(3000);

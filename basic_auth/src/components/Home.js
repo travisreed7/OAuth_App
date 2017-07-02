@@ -4,10 +4,7 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default class landingPage extends React.Component {
-    constructor (props) {
-        super(props);
-    }
+export default class Home extends React.Component {
 
     render() {
         return (
@@ -23,6 +20,3 @@ export default class landingPage extends React.Component {
         );
     }
 }
-const style = {
-    margin: 15,
-};
