@@ -4,6 +4,10 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('basic_auth/build'));
+}
+
 const home = require('../src/components/Home');
 
 app.use(bodyParser.urlencoded({ extended: true }));
