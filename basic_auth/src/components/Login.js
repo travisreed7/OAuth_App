@@ -9,7 +9,7 @@ import axios from 'axios';
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             username: '',
             password: '',
             authenticated: false
@@ -17,12 +17,18 @@ export default class Login extends React.Component {
     }
 
     handleClick () {
-        var apiBaseUrl = "http://localhost:3000/api/";
-        var payload = {
+        let apiBaseUrl;
+        if(process.env.NODE_ENV === 'production') {
+            apiBaseUrl = "https://base-auth-backend.herokuapp.com/api/";
+        } else {
+            apiBaseUrl = "http://localhost:3000/api/";
+        }
+
+        let payload = {
             "email":this.state.username,
             "password":this.state.password
         }
-        var self = this;
+        let self = this;
         axios.post(apiBaseUrl+'login', payload)
             .then(function(response) {
                 if(response.data.code === 200) {
@@ -31,8 +37,8 @@ export default class Login extends React.Component {
                     console.log("Login successful");
                 }
                 else if(response.data.code === 204) {
-                    console.log("Username password do not match");
-                    alert("username password do not match")
+                    console.log("The email or password you entered is invalid");
+                    alert("The email or password you entered is invalid")
                 }
                 else{
                     console.log("Username does not exist");
@@ -47,7 +53,7 @@ export default class Login extends React.Component {
 
     render() {
         return this.state.authenticated ?
-            (<Redirect to="/home" />) :
+            (<Redirect to={{pathname: "/home", state: { username: this.state.username}}} push />) :
             (<div>
                 <MuiThemeProvider>
                     <div>

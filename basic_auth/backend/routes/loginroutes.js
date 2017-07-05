@@ -1,10 +1,18 @@
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'password',
-    database : 'Auth'
-});
+let mysql = require('mysql');
+let credentials;
+if(process.env.NODE_ENV === 'production') {
+    credentials = 'process.env.JAWSDB_URL';
+} else {
+    credentials = {
+        host     : 'localhost',
+        user     : 'root',
+        password : 'password',
+        database : 'Auth'
+    };
+}
+
+let connection = mysql.createConnection(credentials);
+
 connection.connect(function(err) {
     if(!err) {
         console.log("Database is connected");
@@ -15,8 +23,8 @@ connection.connect(function(err) {
 
 exports.register = function(req,res) {
     console.log("req", req.body);
-    var today = new Date();
-    var users={
+    let today = new Date();
+    let users={
         "first_name":req.body.first_name,
         "last_name":req.body.last_name,
         "email":req.body.email,
@@ -24,50 +32,50 @@ exports.register = function(req,res) {
         "created":today,
         "modified":today
     }
-    connection.query('INSERT INTO users SET ?',users, function (error, results, fields) {
+    connection.query('INSERT INTO users SET ?',users, function (error, results) {
         if (error) {
-            console.log("error occurred",error);
+            console.log("Error occurred",error);
             res.send({
                 "code":400,
-                "failed":"error occurred"
+                "failed":"Error occurred"
             })
         }else{
-            console.log('The solution is: ', results);
+            console.log("The results are: ", results);
             res.send({
                 "code":200,
-                "success":"user registered successfully"
+                "success":"User registered successfully"
             });
         }
     });
 }
 
 exports.login = function(req,res) {
-    var email= req.body.email;
-    var password = req.body.password;
-    connection.query('SELECT * FROM users WHERE email = ?',[email], function (error, results, fields) {
+    let email= req.body.email;
+    let password = req.body.password;
+    connection.query('SELECT * FROM users WHERE email = ?',[email], function (error, results) {
         if (error) {
-            console.log("error occurred",error);
+            console.log("Error occurred",error);
             res.send({
                 "code":400,
-                "failed":"error occurred"
+                "failed":"Error occurred"
             })
-        }else{
+        } else {
             console.log('The results are: ', results);
             if(results.length > 0){
                 if(results[0].password === password){
                     res.send({
                         "code":200,
-                        "success":"login successful"
+                        "success":"Login successful"
                     });
                 }
                 else{
                     res.send({
                         "code":204,
-                        "success":"Email and password do not match"
+                        "success":"The email or password you entered is invalid"
                     });
                 }
             }
-            else{
+            else {
                 res.send({
                     "code":204,
                     "success":"Email does not exist"

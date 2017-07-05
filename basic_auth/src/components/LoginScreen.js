@@ -24,7 +24,7 @@ export default class LoginScreen extends React.Component {
 
     render() {
         return this.state.redirect ?
-            (<Redirect to="/register" />) :
+            (<Redirect to="/register" push/>) :
             (<div className="loginscreen">
                 <Login/>
                 <div>

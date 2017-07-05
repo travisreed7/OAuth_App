@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-class Register extends React.Component {
+export default class Register extends React.Component {
     constructor (props) {
         super (props);
         this.state = {
@@ -19,11 +20,17 @@ class Register extends React.Component {
     }
 
     handleClick () {
-        var apiBaseUrl = "http://localhost:3000/api/";
-        var self = this;
+        let apiBaseUrl;
+        if(process.env.NODE_ENV === 'production') {
+            apiBaseUrl = "https://base-auth-backend.herokuapp.com/api/";
+        } else {
+            apiBaseUrl = "http://localhost:3000/api/";
+        }
+
+        let self = this;
         console.log("values: ",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
         //To be done: Check for empty values before hitting submit
-        var payload={
+        let payload={
             "first_name": this.state.first_name,
             "last_name":this.state.last_name,
             "email":this.state.email,
@@ -43,7 +50,7 @@ class Register extends React.Component {
 
     render() {
         return this.state.redirect ?
-            (<Redirect to="/login" />) :
+            (<Redirect to="/login" push />) :
             (<div>
                 <MuiThemeProvider>
                     <div>
@@ -87,7 +94,15 @@ class Register extends React.Component {
         );
     }
 }
+
+Register.propTypes = {
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    redirect: PropTypes.bool
+}
+
 const style = {
     margin: 15,
 };
-export default Register;

@@ -1,14 +1,8 @@
-var express = require("express");
-var login = require('./routes/loginroutes');
-var bodyParser = require('body-parser');
+let express = require("express");
+let login = require('./routes/loginroutes');
+let bodyParser = require('body-parser');
 
-var app = express();
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('basic_auth/build'));
-}
-
-const home = require('../src/components/Home');
+let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,16 +12,11 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-var router = express.Router();
 
-// test route
-router.get('/', function(req, res) {
-    res.json({ message: 'welcome to our upload module apis' });
-});
+let router = express.Router();
 
-//route to handle user registration
+// Routes to handle user registration and login
 router.post('/register',login.register);
 router.post('/login',login.login)
 app.use('/api', router);
-app.use(home);
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
