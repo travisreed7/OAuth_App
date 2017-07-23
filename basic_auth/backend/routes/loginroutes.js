@@ -63,17 +63,22 @@ exports.login = function(req,res) {
             console.log('The results are: ', results);
             if(results.length > 0){
                 if(results[0].password === password){
-                    res.send({
-                        "code":200,
-                        "success":"Login successful"
-                    });
-                }
-                else{
-                    res.send({
-                        "code":204,
-                        "success":"The email or password you entered is invalid"
-                    });
-                }
+                    //bcrypt.compare(results[0].password, password, function(err, result) {
+                    // res === true
+                    // need bcrypt...
+                    //if(result){
+                        res.send({
+                            "code":200,
+                            "success":"Login successful"
+                        });
+                    }
+                    else {
+                        res.send({
+                            "code":204,
+                            "success":"The email or password you entered is invalid"
+                        });
+                    }
+                //});
             }
             else {
                 res.send({

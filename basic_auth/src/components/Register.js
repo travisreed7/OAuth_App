@@ -7,6 +7,8 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
+import bcrypt from 'bcryptjs';
+
 export default class Register extends React.Component {
     constructor (props) {
         super (props);
@@ -21,31 +23,39 @@ export default class Register extends React.Component {
 
     handleClick () {
         let apiBaseUrl;
+        let self = this;
+
         if(process.env.NODE_ENV === 'production') {
             apiBaseUrl = "https://base-auth-backend.herokuapp.com/api/";
         } else {
             apiBaseUrl = "http://localhost:3000/api/";
         }
 
-        let self = this;
         console.log("values: ",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
         //To be done: Check for empty values before hitting submit
-        let payload={
-            "first_name": this.state.first_name,
-            "last_name":this.state.last_name,
-            "email":this.state.email,
-            "password":this.state.password
-        }
-        axios.post(apiBaseUrl+'register', payload)
-            .then(function (response) {
-                if(response.data.code === 200){
-                    console.log("registration successful");
-                    self.setState({redirect: true});
+
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(self.state.password, salt, function(err, hash) {
+                let payload={
+                    "first_name": self.state.first_name,
+                    "last_name":self.state.last_name,
+                    "email":self.state.email,
+                    "password": hash
                 }
-            })
-            .catch(function (error) {
-                console.log(error);
+                console.log("hashPw is: "+hash);
+                axios.post(apiBaseUrl+'register', payload)
+                    .then(function (response) {
+                        if(response.data.code === 200){
+                            console.log("registration successful");
+                            self.setState({redirect: true});
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             });
+        });
+
     }
 
     render() {
