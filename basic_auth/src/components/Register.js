@@ -31,7 +31,7 @@ export default class Register extends React.Component {
             apiBaseUrl = "http://localhost:3000/api/";
         }
 
-        console.log("values: ",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
+        //console.log("values: ",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
         //To be done: Check for empty values before hitting submit
 
         bcrypt.genSalt(10, function(err, salt) {
@@ -46,12 +46,11 @@ export default class Register extends React.Component {
                 axios.post(apiBaseUrl+'register', payload)
                     .then(function (response) {
                         if(response.data.code === 200){
-                            console.log("registration successful");
                             self.setState({redirect: true});
                         }
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        console.error(error);
                     });
             });
         });

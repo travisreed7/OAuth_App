@@ -33,12 +33,10 @@ export default class Login extends React.Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged((user)  => {
             if (user) {
-                console.log("if");
-                console.log("mounted calling authHandler");
                 //this.authHandler(user);
             }
             else {
-                console.log("else");
+                // No user logged in with OAuth
             }
         })
     }
@@ -50,20 +48,17 @@ export default class Login extends React.Component {
                 this.authenticate(provider);
             }
         } else {
-            console.log("signing user out");
             this.handleSignOut();
         }
     }
 
     authenticate(provider) {
-        console.log("authenticate calling authHandler");
         firebase.auth().signInWithPopup(provider)
             .then(this.authHandler)
             .catch(err => console.error(err))
     }
 
     authHandler = (authData) => {
-        //console.log(authData);
         let user = authData.user || authData;
         this.setState({
             uid: user.uid,
@@ -103,25 +98,21 @@ export default class Login extends React.Component {
                 if(response.data.code === 200) {
                     // User is authenticated
                     self.setState({authenticated: true});
-                    console.log("Login successful");
                 }
                 else if(response.data.code === 204) {
-                    console.log("The email or password you entered is invalid");
                     alert("The email or password you entered is invalid")
                 }
                 else{
-                    console.log("Username does not exist");
                     alert("Username does not exist");
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
             });
 
     }
 
     render() {
-        console.log(this.state.authenticated);
         return this.state.authenticated ?
             (<Redirect to={{pathname: "/home", state: { username: this.state.username, uid: this.state.uid, authenticated: this.state.authenticated}}} push />) :
             (<div>

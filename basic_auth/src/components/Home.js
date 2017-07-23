@@ -12,7 +12,6 @@ export default class Home extends React.Component {
     constructor(props) {
         super(props);
         if (typeof this.props.location.state === 'undefined') {
-            console.log("undefined");
             this.state = {
                 username: '',
                 uid: '',
@@ -44,7 +43,6 @@ export default class Home extends React.Component {
     }
 
     handleSignOut() {
-        console.log("Oauth sign out");
         firebase.auth().signOut()
             .then(() => {
                 // Sign-out successful.
