@@ -40,5 +40,5 @@ export default class LoginScreen extends React.Component {
     }
 }
 const style = {
-    margin: 15,
+    margin: 15
 };

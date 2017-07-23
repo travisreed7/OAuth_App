@@ -11,17 +11,22 @@ import firebase from 'firebase';
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
-        //console.log(props);
-        this.state = {
-            username: this.props.location.state.username,
-            uid: this.props.location.state.uid,
-            authenticated: this.props.location.state.authenticated,
-            redirect: false
+        if (typeof this.props.location.state === 'undefined') {
+            console.log("undefined");
+            this.state = {
+                username: '',
+                uid: '',
+                authenticated: false,
+                redirect: true
+            }
+        } else {
+            this.state = {
+                username: this.props.location.state.username,
+                uid: this.props.location.state.uid,
+                authenticated: this.props.location.state.authenticated,
+                redirect: false
+            }
         }
-    }
-
-    handleClick() {
-        this.setState({redirect: true});
     }
 
     handleLogoff() {
