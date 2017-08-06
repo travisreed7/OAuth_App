@@ -18,7 +18,6 @@ const config = {
 
 this.app = firebase.initializeApp(config);
 
-
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -52,6 +51,16 @@ export default class Login extends React.Component {
         }
     }
 
+    toggleOAuth() {
+        let client_id='824507396066-s1r70vqic9a066aupejvvm61h0ouvtpa.apps.googleusercontent.com';
+        if (!this.state.authenticated) {
+            let url = 'https://accounts.google.com/o/oauth2/v2/auth?scope=email+profile&access_type=offline&include_granted_scopes=true&&redirect_uri=http://localhost:3001/oauth2callback&response_type=code&client_id='+client_id;
+            window.location.href=url;
+        } else {
+            this.handleOAuthSignOut();
+        }
+    }
+
     authenticate(provider) {
         firebase.auth().signInWithPopup(provider)
             .then(this.authHandler)
@@ -64,6 +73,14 @@ export default class Login extends React.Component {
             uid: user.uid,
             username: user.displayName,
             authenticated: true
+        });
+    }
+
+    handleOAuthSignOut() {
+        this.setState({
+            uid: null,
+            username: null,
+            authenticated: false
         });
     }
 
@@ -141,6 +158,14 @@ export default class Login extends React.Component {
                                       labelColor="#ffffff"
                                       backgroundColor="#dd4b39"
                                       onClick={this.toggleSignIn.bind(this, "google")}>
+                        </RaisedButton>
+                        <br/>
+                        <RaisedButton label="Login With my OAuth"
+                                      className="google"
+                                      style={style}
+                                      labelColor="#ffffff"
+                                      backgroundColor="#dd4b39"
+                                      onClick={() => this.toggleOAuth()}>
                         </RaisedButton>
                     </div>
                 </MuiThemeProvider>

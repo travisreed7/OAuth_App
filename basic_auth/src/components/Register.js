@@ -99,8 +99,7 @@ export default class Register extends React.Component {
                         </div>
                     </div>
                 </MuiThemeProvider>
-            </div>
-        );
+            </div>);
     }
 }
 
