@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
+import AppBar from 'material-ui/AppBar';
 import firebase from 'firebase';
 
 export default class Home extends React.Component {
@@ -70,6 +71,7 @@ export default class Home extends React.Component {
                 <div>
                     <MuiThemeProvider>
                         <div>
+                            <AppBar title="Home"/>
                             <p>Successfully Logged In. Welcome { userName }</p>
                             <p>Email is: {email}</p>
                             <img src={picture} alt="Profile" style={style}></img>
