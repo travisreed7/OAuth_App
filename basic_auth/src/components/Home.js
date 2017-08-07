@@ -34,8 +34,9 @@ export default class Home extends React.Component {
             this.handleSignOut();
         } else {
             this.setState({
-                uid: null,
+                email: null,
                 username: null,
+                picture: null,
                 authenticated: false,
                 redirect: true
             })
@@ -59,7 +60,7 @@ export default class Home extends React.Component {
     render() {
         let userName = this.state.username;
         return this.state.redirect ?
-            (<Redirect to={{pathname: "/login", state: { username: this.state.username, uid: this.state.uid, authenticated: this.state.authenticated}}} push />) :
+            (<Redirect to={{pathname: "/login", state: { username: this.state.username, authenticated: this.state.authenticated}}} push />) :
             (<div className="landingPage">
                 <div>
                     <MuiThemeProvider>
