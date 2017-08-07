@@ -13,15 +13,17 @@ export default class Home extends React.Component {
         super(props);
         if (typeof this.props.location.state === 'undefined') {
             this.state = {
+                email: '',
                 username: '',
-                uid: '',
+                picture: '',
                 authenticated: false,
                 redirect: true
             }
         } else {
             this.state = {
+                email: this.props.location.state.email,
                 username: this.props.location.state.username,
-                uid: this.props.location.state.uid,
+                picture: this.props.location.state.picture,
                 authenticated: this.props.location.state.authenticated,
                 redirect: false
             }
@@ -59,6 +61,9 @@ export default class Home extends React.Component {
 
     render() {
         let userName = this.state.username;
+        let email = this.state.email;
+        let picture = this.state.picture;
+        let style = {width: 128, height: 128}
         return this.state.redirect ?
             (<Redirect to={{pathname: "/login", state: { username: this.state.username, authenticated: this.state.authenticated}}} push />) :
             (<div className="landingPage">
@@ -66,6 +71,8 @@ export default class Home extends React.Component {
                     <MuiThemeProvider>
                         <div>
                             <p>Successfully Logged In. Welcome { userName }</p>
+                            <p>Email is: {email}</p>
+                            <img src={picture} alt="Profile" style={style}></img>
                         <br/><br/>
                         <RaisedButton label="Logoff"
                                       primary={true}

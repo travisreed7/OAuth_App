@@ -17,11 +17,17 @@ const config = {
 };
 
 let REDIRECT_URI;
-
 if(process.env.NODE_ENV === 'production') {
     REDIRECT_URI = "https://oauth-treed.herokuapp.com/oauth2callback";
 } else {
     REDIRECT_URI = "http://localhost:3001/oauth2callback";
+}
+
+let apiBaseUrl;
+if(process.env.NODE_ENV === 'production') {
+    apiBaseUrl = "https://base-auth-backend.herokuapp.com/api/";
+} else {
+    apiBaseUrl = "http://localhost:3000/api/";
 }
 
 this.app = firebase.initializeApp(config);
@@ -107,13 +113,6 @@ export default class Login extends React.Component {
     }
 
     handleClick () {
-        let apiBaseUrl;
-        if(process.env.NODE_ENV === 'production') {
-            apiBaseUrl = "https://base-auth-backend.herokuapp.com/api/";
-        } else {
-            apiBaseUrl = "http://localhost:3000/api/";
-        }
-
         let payload = {
             "email":this.state.username,
             "password":this.state.password
