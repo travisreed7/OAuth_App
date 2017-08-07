@@ -16,6 +16,14 @@ const config = {
     messagingSenderId: "1011245732324"
 };
 
+let REDIRECT_URI;
+
+if(process.env.NODE_ENV === 'production') {
+    REDIRECT_URI = "https://oauth-treed.herokuapp.com/oauth2callback";
+} else {
+    REDIRECT_URI = "http://localhost:3001/oauth2callback";
+}
+
 this.app = firebase.initializeApp(config);
 
 export default class Login extends React.Component {
@@ -53,8 +61,9 @@ export default class Login extends React.Component {
 
     toggleOAuth() {
         let client_id='824507396066-s1r70vqic9a066aupejvvm61h0ouvtpa.apps.googleusercontent.com';
+
         if (!this.state.authenticated) {
-            let url = 'https://accounts.google.com/o/oauth2/v2/auth?scope=email+profile&access_type=offline&include_granted_scopes=true&&redirect_uri=http://localhost:3001/oauth2callback&response_type=code&client_id='+client_id;
+            let url = 'https://accounts.google.com/o/oauth2/v2/auth?scope=email+profile&access_type=offline&include_granted_scopes=true&&redirect_uri='+REDIRECT_URI+'&response_type=code&client_id='+client_id;
             window.location.href=url;
         } else {
             this.handleOAuthSignOut();
