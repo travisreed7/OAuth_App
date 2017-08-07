@@ -10,7 +10,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const CLIENT_ID = '824507396066-s1r70vqic9a066aupejvvm61h0ouvtpa.apps.googleusercontent.com';
 const CLIENT_SECRET = '6UoA4qsy1SMAMutIMbZ-CCrj';
-const REDIRECT_URI = 'http://localhost:3001/oauth2callback';
+let REDIRECT_URI;
+
+if(process.env.NODE_ENV === 'production') {
+    REDIRECT_URI = "https://oauth-treed.herokuapp.com/oauth2callback";
+} else {
+    REDIRECT_URI = "http://localhost:3001/oauth2callback";
+}
 
 export default class oauth2callback extends React.Component {
     constructor(props) {
